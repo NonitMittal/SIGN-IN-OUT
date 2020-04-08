@@ -195,15 +195,18 @@ public class SignINFrame1 extends javax.swing.JFrame {
     else{
         try{
             Connection con = connectDB.connect();     
-            String sql = "SELECT EMAIL_ID,PASSWORD FROM USER1.USERINFO WHERE EMAIL_ID = '"+email+"'";
+            String sql = "SELECT * FROM USER1.USERINFO WHERE EMAIL_ID = '"+email+"'";
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             if(rs.next()){
                 if(rs.getString("PASSWORD").equals(pass)){
                     JOptionPane.showMessageDialog(this,"Login Successful....");
+                    String fname = rs.getString("FIRST_NAME");
+                    String lname = rs.getString("LAST_NAME");
+                    String name = fname+" "+lname;
                     dispose();
-                    new SmsType().setVisible(true);
+                    new WelcomeFrame(name).setVisible(true);
                 }
                 else{
                     JOptionPane.showMessageDialog(this,"Incorrect Password...");
